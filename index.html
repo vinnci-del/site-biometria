@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biometria e Token - Novas Funcionalidades</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-blue: #0085CA;
+            /* Matching the banner's blue */
+            --dark-blue: #005691;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.8);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 112, 224, 0.1);
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        /* --- Gaussian Bubbles Background --- */
+        .blobs-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.5;
+            animation: move linear infinite alternate;
+        }
+
+        .blob-1 {
+            width: 400px;
+            height: 400px;
+            background: #d0e8ff;
+            top: -100px;
+            left: -100px;
+            animation-duration: 20s;
+        }
+
+        .blob-2 {
+            width: 500px;
+            height: 500px;
+            background: #e0f2fe;
+            bottom: -150px;
+            right: -100px;
+            animation-duration: 25s;
+            animation-direction: alternate-reverse;
+        }
+
+        .blob-3 {
+            width: 300px;
+            height: 300px;
+            background: #b9e0ff;
+            top: 40%;
+            left: 30%;
+            animation-duration: 18s;
+        }
+
+        @keyframes move {
+            from {
+                transform: translate(0, 0) scale(1);
+            }
+
+            to {
+                transform: translate(100px, 100px) scale(1.2);
+            }
+        }
+
+        /* --- Glassmorphism & Hover Effects --- */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            border-radius: 20px;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .glass-panel:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.85);
+            box-shadow: 0 15px 45px rgba(0, 112, 224, 0.15);
+            border-color: var(--primary-blue);
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 2rem auto 0;
+            /* Distance from top in all formats */
+            padding: 0 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Capa / Banner Styling */
+        .capa-container {
+            width: 100%;
+            overflow: hidden;
+            border-radius: 20px;
+            /* Floating look with rounded corners everywhere */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .capa-img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Redesigning the intro to be a clean glass card */
+        .intro-section {
+            padding: 2.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .intro-text {
+            font-size: 1.15rem;
+            font-weight: 500;
+            color: var(--dark-blue);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Grid for main sections */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .intro-section,
+            .section-card,
+            .warning-glass {
+                margin-left: 0;
+                margin-right: 0;
+            }
+        }
+
+        .section-card {
+            padding: 2.5rem;
+            height: 100%;
+        }
+
+        .icon-circle {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 133, 202, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .section-card:hover .icon-circle {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        h3 {
+            font-weight: 800;
+            color: var(--dark-blue);
+            margin-bottom: 1.2rem;
+            font-size: 1.35rem;
+            text-transform: uppercase;
+        }
+
+        .check-list {
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .check-list li {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: transform 0.2s ease;
+        }
+
+        .check-list li:hover {
+            transform: translateX(5px);
+            color: var(--primary-blue);
+        }
+
+        .check-list li::before {
+            content: "\f058";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-size: 1.2rem;
+        }
+
+        /* Steps list */
+        .step-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .step-row {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            background: rgba(255, 255, 255, 0.4);
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            transition: all 0.3s ease;
+        }
+
+        .step-row:hover {
+            background: rgba(255, 255, 255, 0.7);
+            border-color: var(--primary-blue);
+            transform: scale(1.02);
+        }
+
+        .step-num {
+            width: 35px;
+            height: 35px;
+            background: var(--primary-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .step-txt {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        /* Warning box */
+        .warning-glass {
+            background: rgba(255, 243, 205, 0.7);
+            border-left: 6px solid #ffc107;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 4rem;
+        }
+
+        .warning-glass h4 {
+            color: #856404;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .warning-glass ul {
+            margin-bottom: 0;
+            padding-left: 1.5rem;
+        }
+
+        .warning-glass li {
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        footer {
+            width: 100%;
+            background: white;
+            padding: 4rem 1rem;
+            border-top: 1px solid #eee;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .whatsapp-btn {
+            background: #25d366;
+            color: white;
+            padding: 1.2rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 1.3rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.2);
+        }
+
+        .whatsapp-btn:hover {
+            transform: scale(1.1) translateY(-3px);
+            background: #20bd5a;
+            color: white;
+            box-shadow: 0 15px 30px rgba(37, 211, 102, 0.4);
+        }
+
+        .footer-logo {
+            margin-top: 3rem;
+            opacity: 0.5;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Gaussian Bubbles Background -->
+    <div class="blobs-container">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="main-container">
+
+        <!-- Capa / Banner -->
+        <div class="capa-container">
+            <img src="banner.jpg" alt="Comunicado Biometria e Token" class="capa-img">
+        </div>
+
+        <!-- Intro -->
+        <div class="glass-panel intro-section">
+            <p class="intro-text">
+                Para fortalecer a segurança nas compras realizadas com o <strong>auxílio medicamentos</strong>,
+                informamos sobre a obrigatoriedade da biometria e a nova funcionalidade de Token.
+            </p>
+        </div>
+
+        <!-- Features Grid -->
+        <div class="features-grid">
+
+            <!-- Biometria -->
+            <div class="glass-panel section-card">
+                <div class="icon-circle">
+                    <i class="fas fa-fingerprint"></i>
+                </div>
+                <h3>1. Identificação Biométrica</h3>
+                <p class="mb-4">A partir de agora, todas as compras com subsídio deverão ser validadas por digital no
+                    caixa.</p>
+
+                <h4 class="h6 fw-bold text-primary text-uppercase mb-3">Como Cadastrar:</h4>
+                <p class="small mb-4">Dirija-se a uma farmácia <strong>Raia ou Drogasil</strong> com seu documento
+                    oficial com foto.</p>
+
+                <h4 class="h6 fw-bold text-primary text-uppercase mb-3">Quem pode cadastrar:</h4>
+                <ul class="check-list">
+                    <li>Titular</li>
+                    <li>Dependentes</li>
+                    <li>Procuradores (habilitados)</li>
+                </ul>
+            </div>
+
+            <!-- Token -->
+            <div class="glass-panel section-card">
+                <div class="icon-circle">
+                    <i class="fas fa-mobile-screen-button"></i>
+                </div>
+                <h3>2. Uso do Token</h3>
+                <p class="mb-4">Caso haja problemas com a leitura da biometria, utilize o Token gerado no aplicativo.
+                </p>
+
+                <div class="step-list">
+                    <div class="step-row">
+                        <div class="step-num">1</div>
+                        <p class="step-txt">Abra o aplicativo <strong>Drogasil</strong> ou <strong>Raia</strong></p>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-num">2</div>
+                        <p class="step-txt">Vá em <strong>Perfil</strong> e selecione <strong>Benefício Univers</strong>
+                        </p>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-num">3</div>
+                        <p class="step-txt">Toque em <strong>Senha Débito em Folha</strong></p>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-num">4</div>
+                        <p class="step-txt">Digite o código no <strong>PIN PAD</strong> do caixa</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Warning Section -->
+        <div class="glass-panel warning-glass">
+            <h4><i class="fas fa-circle-exclamation me-2"></i>Importante</h4>
+            <ul>
+                <li>O Token expira automaticamente em <strong>2 minutos</strong>.</li>
+                <li>É necessário gerar um <strong>novo código</strong> para cada compra.</li>
+                <li>Não será mais solicitado assinatura/contra-cupom.</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <h2 class="h4 fw-bold mb-4">Dúvidas? Entre em contato</h2>
+            <a href="https://wa.me/5508001002345" class="whatsapp-btn">
+                <i class="fab fa-whatsapp"></i>
+                0800 100 2345
+            </a>
+
+            <div class="row justify-content-center mt-4">
+                <div class="col-auto small text-secondary">
+                    <i class="fas fa-phone me-1"></i> Opção 1: Aposentados
+                </div>
+                <div class="col-auto small text-secondary ms-3">
+                    <i class="fas fa-capsules me-1"></i> Opção 3: Medicamentos
+                </div>
+            </div>
+
+            <div class="footer-logo">
+                Fundação Zerrenner | RD Saúde
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
