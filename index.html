@@ -62,40 +62,59 @@
         }
 
         .blob-1 {
-            width: 400px;
-            height: 400px;
+            width: 450px;
+            height: 450px;
             background: #d0e8ff;
-            top: -100px;
-            left: -100px;
-            animation-duration: 20s;
+            top: -150px;
+            left: -150px;
+            animation: move-1 25s ease-in-out infinite alternate;
         }
 
         .blob-2 {
-            width: 500px;
-            height: 500px;
+            width: 550px;
+            height: 550px;
             background: #e0f2fe;
-            bottom: -150px;
-            right: -100px;
-            animation-duration: 25s;
-            animation-direction: alternate-reverse;
+            bottom: -200px;
+            right: -150px;
+            animation: move-2 30s ease-in-out infinite alternate-reverse;
         }
 
         .blob-3 {
-            width: 300px;
-            height: 300px;
+            width: 350px;
+            height: 350px;
             background: #b9e0ff;
-            top: 40%;
-            left: 30%;
-            animation-duration: 18s;
+            top: 30%;
+            left: 20%;
+            animation: move-3 22s ease-in-out infinite alternate;
         }
 
-        @keyframes move {
-            from {
+        @keyframes move-1 {
+            0% {
                 transform: translate(0, 0) scale(1);
             }
 
-            to {
-                transform: translate(100px, 100px) scale(1.2);
+            100% {
+                transform: translate(150px, 100px) scale(1.1);
+            }
+        }
+
+        @keyframes move-2 {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            100% {
+                transform: translate(-120px, -150px) scale(1.2);
+            }
+        }
+
+        @keyframes move-3 {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            100% {
+                transform: translate(200px, -100px) scale(1.15);
             }
         }
 
@@ -155,10 +174,15 @@
             position: relative;
         }
 
+        .capa-container:hover .capa-img {
+            transform: scale(1.03);
+        }
+
         .capa-img {
             width: 100%;
             height: auto;
             display: block;
+            transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
         /* Redesigning the intro to be a clean glass card */
@@ -237,20 +261,40 @@
         .icon-circle {
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: var(--primary-blue);
             font-size: 1.5rem;
             margin-bottom: 1.5rem;
-            box-shadow: 0 4px 15px rgba(0, 133, 202, 0.3);
-            transition: transform 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0, 112, 224, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .icon-circle::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--glass-shine);
+            opacity: 0.5;
+            pointer-events: none;
         }
 
         .section-card:hover .icon-circle {
-            transform: scale(1.1) rotate(5deg);
+            transform: scale(1.15) rotate(8deg);
+            background: rgba(255, 255, 255, 0.5);
+            color: var(--dark-blue);
+            box-shadow: 0 12px 25px rgba(0, 112, 224, 0.2);
         }
 
         h3 {
