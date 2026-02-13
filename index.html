@@ -133,7 +133,7 @@
             }
         }
 
-        /* --- Floating Medicine Icons (Gaussian to Sharp) --- */
+        /* --- Floating Medicine Icons (Dynamic Randomization) --- */
         .floating-meds {
             position: fixed;
             top: 0;
@@ -147,77 +147,44 @@
 
         .med-icon {
             position: absolute;
-            color: var(--primary-blue);
+            color: #7bbdda;
+            /* Subtle Blue from Mark 2 context */
             opacity: 0;
-            font-size: 2.5rem;
+            font-size: 3rem;
             filter: blur(15px);
-            animation: med-float 20s linear infinite;
+            animation: med-float linear infinite;
+            will-change: transform, opacity, filter;
         }
 
         @keyframes med-float {
             0% {
                 opacity: 0;
                 filter: blur(15px);
-                transform: translate(-10%, 110%) rotate(0deg);
+                transform: translate(var(--start-x, -10vw), var(--start-y, 110vh));
             }
 
             20% {
-                opacity: 0.3;
+                opacity: 0.2;
                 filter: blur(8px);
             }
 
             50% {
-                opacity: 0.5;
+                opacity: 0.4;
                 filter: blur(0px);
-                /* Becomes sharp in the middle of the screen */
-                transform: translate(50%, 50%) rotate(180deg);
+                /* Becomes sharp in the middle */
+                transform: translate(var(--mid-x, 50vw), var(--mid-y, 50vh));
             }
 
             80% {
-                opacity: 0.3;
+                opacity: 0.2;
                 filter: blur(8px);
             }
 
             100% {
                 opacity: 0;
                 filter: blur(15px);
-                transform: translate(110%, -10%) rotate(360deg);
+                transform: translate(var(--end-x, 110vw), var(--end-y, -10vh));
             }
-        }
-
-        /* Individual positions and delays */
-        .med-1 {
-            top: 10%;
-            left: 10%;
-            animation-duration: 25s;
-        }
-
-        .med-2 {
-            top: 60%;
-            left: 80%;
-            animation-duration: 18s;
-            animation-delay: -5s;
-        }
-
-        .med-3 {
-            top: 30%;
-            left: 70%;
-            animation-duration: 22s;
-            animation-delay: -10s;
-        }
-
-        .med-4 {
-            top: 80%;
-            left: 15%;
-            animation-duration: 28s;
-            animation-delay: -15s;
-        }
-
-        .med-5 {
-            top: 40%;
-            left: 40%;
-            animation-duration: 20s;
-            animation-delay: -2s;
         }
 
         @keyframes move-1 {
@@ -640,11 +607,16 @@
         <div class="beam"></div>
     </div>
     <div class="floating-meds">
-        <i class="fas fa-capsules med-icon med-1"></i>
-        <i class="fas fa-pills med-icon med-2"></i>
-        <i class="fas fa-prescription-bottle-medical med-icon med-3"></i>
-        <i class="fas fa-tablet-screen-button med-icon med-4"></i>
-        <i class="fas fa-heart-pulse med-icon med-5"></i>
+        <i class="fas fa-capsules med-icon"></i>
+        <i class="fas fa-pills med-icon"></i>
+        <i class="fas fa-prescription-bottle-medical med-icon"></i>
+        <i class="fas fa-tablets med-icon"></i>
+        <i class="fas fa-kit-medical med-icon"></i>
+        <i class="fas fa-syringe med-icon"></i>
+        <i class="fas fa-flask med-icon"></i>
+        <i class="fas fa-stethoscope med-icon"></i>
+        <i class="fas fa-mortar-pestle med-icon"></i>
+        <i class="fas fa-hand-holding-medical med-icon"></i>
     </div>
     <div class="blobs-container">
         <div class="blob blob-1"></div>
@@ -789,6 +761,41 @@
                     el.classList.add('reveal-active');
                 });
             }
+
+            // --- Floating Meds Randomization ---
+            function randomizeMed(el) {
+                // Random duration for each cycle
+                const duration = 15 + Math.random() * 20;
+                el.style.animationDuration = duration + 's';
+
+                // Random delay to keep them staggered
+                el.style.animationDelay = (Math.random() * -30) + 's';
+
+                // Random Path Variables
+                const startX = Math.random() * 120 - 10;
+                const startY = Math.random() * 120 - 10;
+                const midX = Math.random() * 100;
+                const midY = Math.random() * 100;
+                const endX = Math.random() * 120 - 10;
+                const endY = Math.random() * 120 - 10;
+
+                el.style.setProperty('--start-x', startX + 'vw');
+                el.style.setProperty('--start-y', startY + 'vh');
+                el.style.setProperty('--mid-x', midX + 'vw');
+                el.style.setProperty('--mid-y', midY + 'vh');
+                el.style.setProperty('--end-x', endX + 'vw');
+                el.style.setProperty('--end-y', endY + 'vh');
+
+                // Random size variation
+                el.style.fontSize = (2 + Math.random() * 3) + 'rem';
+            }
+
+            const meds = document.querySelectorAll('.med-icon');
+            meds.forEach(el => {
+                randomizeMed(el);
+                // When one animation cycle ends, randomize for the next one
+                el.addEventListener('animationiteration', () => randomizeMed(el));
+            });
         });
     </script>
 </body>
