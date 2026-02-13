@@ -770,10 +770,10 @@
                 });
             }
 
-            // --- Floating Meds Randomization (Linear Drift) ---
+            // --- Floating Meds Randomization (Glacial Drift) ---
             function randomizeMed(el) {
-                // Ultra slow: 80 to 150 seconds
-                const duration = 80 + Math.random() * 70;
+                // Radically slow: 150 to 300 seconds (2.5 to 5 minutes per cycle)
+                const duration = 150 + Math.random() * 150;
                 el.style.animationDuration = duration + 's';
 
                 if (!el.dataset.initialized) {
