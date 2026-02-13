@@ -620,6 +620,12 @@
         <i class="fas fa-stethoscope med-icon"></i>
         <i class="fas fa-mortar-pestle med-icon"></i>
         <i class="fas fa-hand-holding-medical med-icon"></i>
+        <i class="fas fa-pills med-icon"></i>
+        <i class="fas fa-capsules med-icon"></i>
+        <i class="fas fa-vial med-icon"></i>
+        <i class="fas fa-heart-pulse med-icon"></i>
+        <i class="fas fa-thermometer med-icon"></i>
+        <i class="fas fa-bandage med-icon"></i>
     </div>
     <div class="blobs-container">
         <div class="blob blob-1"></div>
@@ -765,27 +771,38 @@
                 });
             }
 
-            // --- Floating Meds Randomization (Ultra-Smooth) ---
+            // --- Floating Meds Randomization (Wide Distribution) ---
             function randomizeMed(el) {
-                // Significantly slower: 40 to 100 seconds per cycle
-                const duration = 40 + Math.random() * 60;
+                // Slower for elegance
+                const duration = 45 + Math.random() * 55;
                 el.style.animationDuration = duration + 's';
 
-                // Keep delay to stagger initial appearance
                 if (!el.dataset.initialized) {
-                    el.style.animationDelay = (Math.random() * -60) + 's';
+                    el.style.animationDelay = (Math.random() * -duration) + 's';
                     el.dataset.initialized = "true";
                 } else {
                     el.style.animationDelay = '0s';
                 }
 
-                // Smooth Path Variables (Stay within viewable but drifting ranges)
-                const startX = Math.random() * 100 - 10;
-                const startY = Math.random() * 100 + 10;
-                const midX = 20 + Math.random() * 60; // Stay more in the middle area
-                const midY = 20 + Math.random() * 60;
-                const endX = Math.random() * 100 - 10;
-                const endY = Math.random() * -20;
+                // Randomly pick a starting side (0: top, 1: right, 2: bottom, 3: left)
+                const startSide = Math.floor(Math.random() * 4);
+                let startX, startY;
+                if (startSide === 0) { startX = Math.random() * 100; startY = -20; }
+                else if (startSide === 1) { startX = 120; startY = Math.random() * 100; }
+                else if (startSide === 2) { startX = Math.random() * 100; startY = 120; }
+                else { startX = -20; startY = Math.random() * 100; }
+
+                // Mid points can now be anywhere!
+                const midX = Math.random() * 100;
+                const midY = Math.random() * 100;
+
+                // Randomly pick an ending side
+                const endSide = Math.floor(Math.random() * 4);
+                let endX, endY;
+                if (endSide === 0) { endX = Math.random() * 100; endY = -20; }
+                else if (endSide === 1) { endX = 120; endY = Math.random() * 100; }
+                else if (endSide === 2) { endX = Math.random() * 100; endY = 120; }
+                else { endX = -20; endY = Math.random() * 100; }
 
                 el.style.setProperty('--start-x', startX + 'vw');
                 el.style.setProperty('--start-y', startY + 'vh');
@@ -794,7 +811,6 @@
                 el.style.setProperty('--end-x', endX + 'vw');
                 el.style.setProperty('--end-y', endY + 'vh');
 
-                // Subtle size (don't distract)
                 el.style.fontSize = (1.5 + Math.random() * 2) + 'rem';
             }
 
