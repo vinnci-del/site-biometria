@@ -19,11 +19,12 @@
     <style>
         :root {
             --primary-blue: #0085CA;
-            /* Matching the banner's blue */
             --dark-blue: #005691;
-            --glass-bg: rgba(255, 255, 255, 0.7);
-            --glass-border: 1px solid rgba(255, 255, 255, 0.8);
-            --glass-shadow: 0 8px 32px 0 rgba(0, 112, 224, 0.1);
+            /* Apple Glass Refined */
+            --glass-bg: rgba(255, 255, 255, 0.45);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.6);
+            --glass-shadow: 0 12px 40px 0 rgba(0, 70, 150, 0.08);
+            --glass-shine: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.1) 100%);
         }
 
         body {
@@ -98,22 +99,39 @@
             }
         }
 
-        /* --- Glassmorphism & Hover Effects --- */
+        /* --- Apple Glassmorphism --- */
         .glass-panel {
             background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
             border: var(--glass-border);
             box-shadow: var(--glass-shadow);
             border-radius: 20px;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        /* Subtle Noise/Grain and Shine Layer */
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E"),
+                var(--glass-shine);
+            pointer-events: none;
+            z-index: -1;
         }
 
         .glass-panel:hover {
-            transform: translateY(-8px);
-            background: rgba(255, 255, 255, 0.85);
-            box-shadow: 0 15px 45px rgba(0, 112, 224, 0.15);
-            border-color: var(--primary-blue);
+            transform: translateY(-8px) scale(1.02);
+            background: rgba(255, 255, 255, 0.55);
+            box-shadow: 0 20px 50px rgba(0, 80, 200, 0.12);
+            border-color: rgba(255, 255, 255, 0.9);
         }
 
         .main-container {
