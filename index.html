@@ -137,10 +137,49 @@
             position: relative;
         }
 
+        /* Glass Shine Effect */
+        .capa-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right,
+                    rgba(255, 255, 255, 0) 0%,
+                    rgba(255, 255, 255, 0.4) 50%,
+                    rgba(255, 255, 255, 0) 100%);
+            transform: skewX(-25deg);
+            animation: glass-shine 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            pointer-events: none;
+        }
+
+        @keyframes glass-shine {
+            0% {
+                left: -150%;
+            }
+
+            20% {
+                left: 150%;
+            }
+
+            100% {
+                left: 150%;
+            }
+        }
+
         .capa-img {
             width: 100%;
             height: auto;
             display: block;
+            transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        /* Desktop Hover Zoom */
+        @media (min-width: 769px) {
+            .capa-container:hover .capa-img {
+                transform: scale(1.03);
+            }
         }
 
         /* Redesigning the intro to be a clean glass card */
@@ -208,6 +247,23 @@
 
             .warning-glass.reveal-on-scroll {
                 transition-delay: 0.1s;
+            }
+
+            /* Breathing animation for Mobile Banner */
+            .capa-container.reveal-active {
+                animation: breathing 4s ease-in-out infinite, glass-shine 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            }
+
+            @keyframes breathing {
+
+                0%,
+                100% {
+                    transform: translateY(0) scale(1);
+                }
+
+                50% {
+                    transform: translateY(-5px) scale(1.01);
+                }
             }
         }
 
