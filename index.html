@@ -106,12 +106,10 @@
             border: var(--glass-border);
             box-shadow: var(--glass-shadow);
             border-radius: 20px;
-            transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
-        /* Hover for Desktop, Scroll-trigger for Mobile */
-        .glass-panel:hover,
-        .glass-panel.reveal-active {
+        .glass-panel:hover {
             transform: translateY(-8px);
             background: rgba(255, 255, 255, 0.85);
             box-shadow: 0 15px 45px rgba(0, 112, 224, 0.15);
@@ -119,9 +117,11 @@
         }
 
         /* Mobile specific active (tap) state */
-        .glass-panel:active {
-            transform: scale(0.98);
-            background: rgba(255, 255, 255, 0.95);
+        @media (max-width: 768px) {
+            .glass-panel:active {
+                transform: scale(0.98);
+                background: rgba(255, 255, 255, 0.95);
+            }
         }
 
         .main-container {
@@ -143,15 +143,6 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             margin-bottom: 2.5rem;
             position: relative;
-            /* Entrance animation */
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.8s ease-out;
-        }
-
-        .capa-container.reveal-active {
-            opacity: 1;
-            transform: translateY(0);
         }
 
         .capa-img {
@@ -165,14 +156,6 @@
             padding: 2.5rem;
             text-align: center;
             margin-bottom: 2rem;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.8s ease-out 0.2s;
-        }
-
-        .intro-section.reveal-active {
-            opacity: 1;
-            transform: translateY(0);
         }
 
         .intro-text {
@@ -203,19 +186,23 @@
                 margin-left: 0;
                 margin-right: 0;
             }
+
+            /* Scroll Reveal - Mobile Only */
+            .reveal-on-scroll {
+                opacity: 0;
+                transform: translateY(20px);
+                transition: all 0.8s ease-out;
+            }
+
+            .reveal-on-scroll.reveal-active {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .section-card {
             padding: 2.5rem;
             height: 100%;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
-        }
-
-        .section-card.reveal-active {
-            opacity: 1;
-            transform: translateY(0);
         }
 
         .icon-circle {
@@ -233,8 +220,7 @@
             transition: transform 0.3s ease;
         }
 
-        .section-card:hover .icon-circle,
-        .section-card.reveal-active .icon-circle {
+        .section-card:hover .icon-circle {
             transform: scale(1.1) rotate(5deg);
         }
 
