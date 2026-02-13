@@ -133,6 +133,93 @@
             }
         }
 
+        /* --- Floating Medicine Icons (Gaussian to Sharp) --- */
+        .floating-meds {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -3;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .med-icon {
+            position: absolute;
+            color: var(--primary-blue);
+            opacity: 0;
+            font-size: 2.5rem;
+            filter: blur(15px);
+            animation: med-float 20s linear infinite;
+        }
+
+        @keyframes med-float {
+            0% {
+                opacity: 0;
+                filter: blur(15px);
+                transform: translate(-10%, 110%) rotate(0deg);
+            }
+
+            20% {
+                opacity: 0.3;
+                filter: blur(8px);
+            }
+
+            50% {
+                opacity: 0.5;
+                filter: blur(0px);
+                /* Becomes sharp in the middle of the screen */
+                transform: translate(50%, 50%) rotate(180deg);
+            }
+
+            80% {
+                opacity: 0.3;
+                filter: blur(8px);
+            }
+
+            100% {
+                opacity: 0;
+                filter: blur(15px);
+                transform: translate(110%, -10%) rotate(360deg);
+            }
+        }
+
+        /* Individual positions and delays */
+        .med-1 {
+            top: 10%;
+            left: 10%;
+            animation-duration: 25s;
+        }
+
+        .med-2 {
+            top: 60%;
+            left: 80%;
+            animation-duration: 18s;
+            animation-delay: -5s;
+        }
+
+        .med-3 {
+            top: 30%;
+            left: 70%;
+            animation-duration: 22s;
+            animation-delay: -10s;
+        }
+
+        .med-4 {
+            top: 80%;
+            left: 15%;
+            animation-duration: 28s;
+            animation-delay: -15s;
+        }
+
+        .med-5 {
+            top: 40%;
+            left: 40%;
+            animation-duration: 20s;
+            animation-delay: -2s;
+        }
+
         @keyframes move-1 {
             0% {
                 transform: translate(0, 0) scale(1);
@@ -546,11 +633,18 @@
 
 <body>
 
-    <!-- Tech Beams and Gaussian Bubbles Background -->
+    <!-- Tech Beams, Floating Meds and Gaussian Bubbles Background -->
     <div class="tech-beams">
         <div class="beam"></div>
         <div class="beam"></div>
         <div class="beam"></div>
+    </div>
+    <div class="floating-meds">
+        <i class="fas fa-capsules med-icon med-1"></i>
+        <i class="fas fa-pills med-icon med-2"></i>
+        <i class="fas fa-prescription-bottle-medical med-icon med-3"></i>
+        <i class="fas fa-tablet-screen-button med-icon med-4"></i>
+        <i class="fas fa-heart-pulse med-icon med-5"></i>
     </div>
     <div class="blobs-container">
         <div class="blob blob-1"></div>
