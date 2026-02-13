@@ -166,8 +166,8 @@
         /* Capa / Banner Styling */
         .capa-container {
             width: 100%;
-            height: 240px;
-            /* Even more narrowed for Desktop */
+            height: 320px;
+            /* Slightly taller to fit the heads better */
             overflow: hidden;
             border-radius: 20px;
             /* Floating look with rounded corners everywhere */
@@ -184,8 +184,8 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: center 15%;
-            /* Shifted down slightly to show the heads */
+            object-position: top center;
+            /* Prioritizing the top of the image to show heads */
             display: block;
             transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
@@ -227,8 +227,8 @@
             }
 
             .capa-container {
-                height: 130px;
-                /* Narrower for Mobile */
+                height: 170px;
+                /* Taller on Mobile for better framing */
             }
 
             /* --- Mobile Scroll Reveal ONLY (Optimized for Fluidity) --- */
