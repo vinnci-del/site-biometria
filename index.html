@@ -148,42 +148,45 @@
         .med-icon {
             position: absolute;
             color: #7bbdda;
-            /* Subtle Blue from Mark 2 context */
             opacity: 0;
-            font-size: 3rem;
+            font-size: 2.5rem;
             filter: blur(15px);
             animation: med-float linear infinite;
             will-change: transform, opacity, filter;
+            backface-visibility: hidden;
+            /* Prevent flickering */
+            -webkit-backface-visibility: hidden;
         }
 
         @keyframes med-float {
             0% {
                 opacity: 0;
-                filter: blur(15px);
-                transform: translate(var(--start-x, -10vw), var(--start-y, 110vh));
+                filter: blur(20px);
+                transform: translate(var(--start-x, -20vw), var(--start-y, 110vh));
             }
 
-            20% {
-                opacity: 0.2;
-                filter: blur(8px);
+            15% {
+                opacity: 0.15;
+                filter: blur(12px);
             }
 
-            50% {
-                opacity: 0.4;
+            45%,
+            55% {
+                opacity: 0.35;
                 filter: blur(0px);
-                /* Becomes sharp in the middle */
+                /* Clearer interaction areas */
                 transform: translate(var(--mid-x, 50vw), var(--mid-y, 50vh));
             }
 
-            80% {
-                opacity: 0.2;
-                filter: blur(8px);
+            85% {
+                opacity: 0.15;
+                filter: blur(12px);
             }
 
             100% {
                 opacity: 0;
-                filter: blur(15px);
-                transform: translate(var(--end-x, 110vw), var(--end-y, -10vh));
+                filter: blur(20px);
+                transform: translate(var(--end-x, 120vw), var(--end-y, -20vh));
             }
         }
 
@@ -762,22 +765,27 @@
                 });
             }
 
-            // --- Floating Meds Randomization ---
+            // --- Floating Meds Randomization (Ultra-Smooth) ---
             function randomizeMed(el) {
-                // Random duration for each cycle
-                const duration = 15 + Math.random() * 20;
+                // Significantly slower: 40 to 100 seconds per cycle
+                const duration = 40 + Math.random() * 60;
                 el.style.animationDuration = duration + 's';
 
-                // Random delay to keep them staggered
-                el.style.animationDelay = (Math.random() * -30) + 's';
+                // Keep delay to stagger initial appearance
+                if (!el.dataset.initialized) {
+                    el.style.animationDelay = (Math.random() * -60) + 's';
+                    el.dataset.initialized = "true";
+                } else {
+                    el.style.animationDelay = '0s';
+                }
 
-                // Random Path Variables
-                const startX = Math.random() * 120 - 10;
-                const startY = Math.random() * 120 - 10;
-                const midX = Math.random() * 100;
-                const midY = Math.random() * 100;
-                const endX = Math.random() * 120 - 10;
-                const endY = Math.random() * 120 - 10;
+                // Smooth Path Variables (Stay within viewable but drifting ranges)
+                const startX = Math.random() * 100 - 10;
+                const startY = Math.random() * 100 + 10;
+                const midX = 20 + Math.random() * 60; // Stay more in the middle area
+                const midY = 20 + Math.random() * 60;
+                const endX = Math.random() * 100 - 10;
+                const endY = Math.random() * -20;
 
                 el.style.setProperty('--start-x', startX + 'vw');
                 el.style.setProperty('--start-y', startY + 'vh');
@@ -786,14 +794,13 @@
                 el.style.setProperty('--end-x', endX + 'vw');
                 el.style.setProperty('--end-y', endY + 'vh');
 
-                // Random size variation
-                el.style.fontSize = (2 + Math.random() * 3) + 'rem';
+                // Subtle size (don't distract)
+                el.style.fontSize = (1.5 + Math.random() * 2) + 'rem';
             }
 
             const meds = document.querySelectorAll('.med-icon');
             meds.forEach(el => {
                 randomizeMed(el);
-                // When one animation cycle ends, randomize for the next one
                 el.addEventListener('animationiteration', () => randomizeMed(el));
             });
         });
