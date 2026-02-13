@@ -149,36 +149,35 @@
             position: absolute;
             color: #7bbdda;
             opacity: 0;
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             filter: blur(15px);
             animation: med-float linear infinite;
             will-change: transform, opacity, filter;
+            pointer-events: none;
             backface-visibility: hidden;
-            /* Prevent flickering */
             -webkit-backface-visibility: hidden;
+            transform-style: preserve-3d;
         }
 
         @keyframes med-float {
             0% {
                 opacity: 0;
                 filter: blur(20px);
-                transform: translate(var(--start-x, -20vw), var(--start-y, 110vh));
+                transform: translate3d(var(--start-x, -20vw), var(--start-y, 110vh), 0);
             }
 
-            15% {
+            20% {
                 opacity: 0.15;
                 filter: blur(12px);
             }
 
-            45%,
-            55% {
+            50% {
                 opacity: 0.35;
                 filter: blur(0px);
-                /* Clearer interaction areas */
-                transform: translate(var(--mid-x, 50vw), var(--mid-y, 50vh));
+                transform: translate3d(var(--mid-x, 50vw), var(--mid-y, 50vh), 0);
             }
 
-            85% {
+            80% {
                 opacity: 0.15;
                 filter: blur(12px);
             }
@@ -186,7 +185,7 @@
             100% {
                 opacity: 0;
                 filter: blur(20px);
-                transform: translate(var(--end-x, 120vw), var(--end-y, -20vh));
+                transform: translate3d(var(--end-x, 120vw), var(--end-y, -20vh), 0);
             }
         }
 
@@ -771,10 +770,10 @@
                 });
             }
 
-            // --- Floating Meds Randomization (Wide Distribution) ---
+            // --- Floating Meds Randomization (Linear Drift) ---
             function randomizeMed(el) {
-                // Slower for elegance
-                const duration = 45 + Math.random() * 55;
+                // Ultra slow: 80 to 150 seconds
+                const duration = 80 + Math.random() * 70;
                 el.style.animationDuration = duration + 's';
 
                 if (!el.dataset.initialized) {
@@ -784,25 +783,24 @@
                     el.style.animationDelay = '0s';
                 }
 
-                // Randomly pick a starting side (0: top, 1: right, 2: bottom, 3: left)
+                // Random edges
                 const startSide = Math.floor(Math.random() * 4);
                 let startX, startY;
-                if (startSide === 0) { startX = Math.random() * 100; startY = -20; }
-                else if (startSide === 1) { startX = 120; startY = Math.random() * 100; }
-                else if (startSide === 2) { startX = Math.random() * 100; startY = 120; }
-                else { startX = -20; startY = Math.random() * 100; }
+                if (startSide === 0) { startX = Math.random() * 100; startY = -25; }
+                else if (startSide === 1) { startX = 125; startY = Math.random() * 100; }
+                else if (startSide === 2) { startX = Math.random() * 100; startY = 125; }
+                else { startX = -25; startY = Math.random() * 100; }
 
-                // Mid points can now be anywhere!
-                const midX = Math.random() * 100;
-                const midY = Math.random() * 100;
-
-                // Randomly pick an ending side
                 const endSide = Math.floor(Math.random() * 4);
                 let endX, endY;
-                if (endSide === 0) { endX = Math.random() * 100; endY = -20; }
-                else if (endSide === 1) { endX = 120; endY = Math.random() * 100; }
-                else if (endSide === 2) { endX = Math.random() * 100; endY = 120; }
-                else { endX = -20; endY = Math.random() * 100; }
+                if (endSide === 0) { endX = Math.random() * 100; endY = -25; }
+                else if (endSide === 1) { endX = 125; endY = Math.random() * 100; }
+                else if (endSide === 2) { endX = Math.random() * 100; endY = 125; }
+                else { endX = -25; endY = Math.random() * 100; }
+
+                // Linear mid-point to avoid "bouncing" or "stretching" jumps
+                const midX = (startX + endX) / 2;
+                const midY = (startY + endY) / 2;
 
                 el.style.setProperty('--start-x', startX + 'vw');
                 el.style.setProperty('--start-y', startY + 'vh');
@@ -811,7 +809,7 @@
                 el.style.setProperty('--end-x', endX + 'vw');
                 el.style.setProperty('--end-y', endY + 'vh');
 
-                el.style.fontSize = (1.5 + Math.random() * 2) + 'rem';
+                el.style.fontSize = (1.2 + Math.random() * 1.8) + 'rem';
             }
 
             const meds = document.querySelectorAll('.med-icon');
