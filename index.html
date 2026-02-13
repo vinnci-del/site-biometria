@@ -116,14 +116,6 @@
             border-color: var(--primary-blue);
         }
 
-        /* Mobile specific active (tap) state */
-        @media (max-width: 768px) {
-            .glass-panel:active {
-                transform: scale(0.98);
-                background: rgba(255, 255, 255, 0.95);
-            }
-        }
-
         .main-container {
             width: 100%;
             max-width: 900px;
@@ -185,18 +177,6 @@
             .warning-glass {
                 margin-left: 0;
                 margin-right: 0;
-            }
-
-            /* Scroll Reveal - Mobile Only */
-            .reveal-on-scroll {
-                opacity: 0;
-                transform: translateY(20px);
-                transition: all 0.8s ease-out;
-            }
-
-            .reveal-on-scroll.reveal-active {
-                opacity: 1;
-                transform: translateY(0);
             }
         }
 
@@ -383,12 +363,12 @@
     <div class="main-container">
 
         <!-- Capa / Banner -->
-        <div class="capa-container reveal-on-scroll">
+        <div class="capa-container">
             <img src="banner.jpg" alt="Comunicado Biometria e Token" class="capa-img">
         </div>
 
         <!-- Intro -->
-        <div class="glass-panel intro-section reveal-on-scroll">
+        <div class="glass-panel intro-section">
             <p class="intro-text">
                 Para fortalecer a segurança nas compras realizadas com o <strong>auxílio medicamentos</strong>,
                 informamos sobre a obrigatoriedade da biometria e a nova funcionalidade de Token.
@@ -399,7 +379,7 @@
         <div class="features-grid">
 
             <!-- Biometria -->
-            <div class="glass-panel section-card reveal-on-scroll">
+            <div class="glass-panel section-card">
                 <div class="icon-circle">
                     <i class="fas fa-fingerprint"></i>
                 </div>
@@ -420,7 +400,7 @@
             </div>
 
             <!-- Token -->
-            <div class="glass-panel section-card reveal-on-scroll">
+            <div class="glass-panel section-card">
                 <div class="icon-circle">
                     <i class="fas fa-mobile-screen-button"></i>
                 </div>
@@ -452,7 +432,7 @@
         </div>
 
         <!-- Warning Section -->
-        <div class="glass-panel warning-glass reveal-on-scroll">
+        <div class="glass-panel warning-glass">
             <h4><i class="fas fa-circle-exclamation me-2"></i>Importante</h4>
             <ul>
                 <li>O Token expira automaticamente em <strong>2 minutos</strong>.</li>
@@ -489,28 +469,6 @@
 
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Scroll Reveal Activation Script -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const observerOptions = {
-                threshold: 0.15,
-                rootMargin: '0px 0px -50px 0px'
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('reveal-active');
-                    }
-                });
-            }, observerOptions);
-
-            document.querySelectorAll('.reveal-on-scroll').forEach(el => {
-                observer.observe(el);
-            });
-        });
-    </script>
 </body>
 
 </html>
