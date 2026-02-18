@@ -409,6 +409,23 @@
             .warning-glass.reveal-on-scroll {
                 transition-delay: 0.1s;
             }
+
+            /* Improve readability on mobile */
+            body {
+                font-weight: 500;
+            }
+
+            p,
+            li,
+            .intro-text {
+                font-weight: 500;
+                color: #222;
+                /* Slightly darker for contrast */
+            }
+
+            .section-card h3 {
+                font-size: 1.4rem;
+            }
         }
 
         .section-card {
@@ -562,17 +579,69 @@
             font-weight: 500;
         }
 
-        /* Footer */
+        /* Footer Redesign */
         footer {
             width: 100%;
-            background: white;
+            background: rgba(255, 255, 255, 0.8);
             padding: 4rem 1rem;
-            border-top: 1px solid #eee;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
             text-align: center;
             position: relative;
             z-index: 10;
         }
 
+        .footer-contact-block {
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            padding: 2.5rem 1.5rem;
+            /* Using the glass panel effect for the footer block as well */
+        }
+
+        .footer-options {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-option-item {
+            color: var(--dark-blue);
+            font-weight: 700;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-logo-container {
+            margin-top: 2rem;
+            opacity: 0.9;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-logo-container:hover {
+            opacity: 1;
+        }
+
+        .footer-logo-img {
+            max-width: 280px;
+            height: auto;
+            filter: grayscale(0.2);
+            /* Subtle integration */
+        }
+
+        @media (max-width: 576px) {
+            .footer-options {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .footer-contact-block {
+                padding: 2rem 1rem;
+            }
+        }
+
+        /* --- Animations --- */
         .whatsapp-btn {
             background: #25d366;
             color: white;
@@ -723,22 +792,25 @@
     <footer>
         <div class="container">
             <h2 class="h4 fw-bold mb-4">Dúvidas? Entre em contato</h2>
-            <a href="https://wa.me/5508001002345" class="whatsapp-btn">
-                <i class="fab fa-whatsapp"></i>
-                0800 100 2345
-            </a>
 
-            <div class="row justify-content-center mt-4">
-                <div class="col-auto small text-secondary">
-                    <i class="fas fa-phone me-1"></i> Opção 1: Aposentados
-                </div>
-                <div class="col-auto small text-secondary ms-3">
-                    <i class="fas fa-capsules me-1"></i> Opção 3: Medicamentos
+            <div class="footer-contact-block glass-panel reveal-on-scroll">
+                <a href="https://wa.me/5508001002345" class="whatsapp-btn">
+                    <i class="fab fa-whatsapp"></i>
+                    0800 100 2345
+                </a>
+
+                <div class="footer-options mt-4">
+                    <div class="footer-option-item">
+                        <i class="fas fa-phone"></i> Opção 1: Aposentados
+                    </div>
+                    <div class="footer-option-item">
+                        <i class="fas fa-capsules"></i> Opção 3: Medicamentos
+                    </div>
                 </div>
             </div>
 
-            <div class="footer-logo">
-                Fundação Zerrenner | RD Saúde
+            <div class="footer-logo-container reveal-on-scroll">
+                <img src="logo.svg" alt="Fundação Zerrenner | RD Saúde" class="footer-logo-img">
             </div>
         </div>
     </footer>
