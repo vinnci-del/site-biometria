@@ -314,32 +314,17 @@
             }
         }
 
-        /* --- Desktop Scroll Reveal (High Fidelity) --- */
+        /* --- Desktop Scroll Reveal (Refined & Fluid) --- */
         .reveal-on-scroll {
             opacity: 0;
-            transform: translateY(40px) scale(0.96);
-            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: transform, opacity;
         }
 
         .reveal-on-scroll.reveal-active {
             opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-
-        /* Auto-Animate Items on Desktop (Rich Details) */
-        .reveal-active .icon-circle {
-            transform: scale(1.1) rotate(5deg);
-            color: var(--primary-blue) !important;
-        }
-
-        .reveal-active.capa-container .capa-img {
-            transform: scale(1.03);
-        }
-
-        .reveal-active .step-row {
-            transform: scale(1.02);
-            border-color: var(--primary-blue);
+            transform: translateY(0);
         }
 
         /* Staggered Entrance Delays (Desktop Only) */
@@ -512,6 +497,13 @@
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
+        .section-card:hover .icon-circle {
+            transform: scale(1.15) rotate(8deg);
+            background: rgba(255, 255, 255, 0.5);
+            color: var(--dark-blue);
+            box-shadow: 0 12px 25px rgba(0, 112, 224, 0.2);
+        }
+
         h3 {
             font-weight: 800;
             color: var(--dark-blue);
@@ -531,6 +523,12 @@
             margin-bottom: 1rem;
             font-weight: 600;
             font-size: 0.95rem;
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        .check-list li:hover {
+            transform: translateX(5px);
+            color: var(--primary-blue);
         }
 
         .check-list li::before {
@@ -558,6 +556,12 @@
             border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.6);
             transition: all 0.3s ease;
+        }
+
+        .step-row:hover {
+            background: rgba(255, 255, 255, 0.7);
+            border-color: var(--primary-blue);
+            transform: scale(1.02);
         }
 
         .step-num {
