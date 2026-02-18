@@ -314,7 +314,70 @@
             }
         }
 
-        /* Capa / Banner Styling */
+        /* --- Desktop Scroll Reveal (High Fidelity) --- */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(40px) scale(0.96);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity;
+        }
+
+        .reveal-on-scroll.reveal-active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Auto-Animate Items on Desktop (Rich Details) */
+        .reveal-active .icon-circle {
+            transform: scale(1.1) rotate(5deg);
+            color: var(--primary-blue) !important;
+        }
+
+        .reveal-active.capa-container .capa-img {
+            transform: scale(1.03);
+        }
+
+        .reveal-active .step-row {
+            transform: scale(1.02);
+            border-color: var(--primary-blue);
+        }
+
+        /* Staggered Entrance Delays (Desktop Only) */
+        .intro-section.reveal-on-scroll {
+            transition-delay: 0.1s;
+        }
+
+        .section-card:nth-child(1).reveal-on-scroll {
+            transition-delay: 0.2s;
+        }
+
+        .section-card:nth-child(2).reveal-on-scroll {
+            transition-delay: 0.4s;
+        }
+
+        .warning-glass.reveal-on-scroll {
+            transition-delay: 0.2s;
+        }
+
+        .footer-contact-block.reveal-on-scroll {
+            transition-delay: 0.1s;
+        }
+
+        .footer-logo-container.reveal-on-scroll {
+            transition-delay: 0.3s;
+        }
+
+        @media (max-width: 768px) {
+
+            .intro-section.reveal-on-scroll,
+            .section-card:nth-child(n).reveal-on-scroll,
+            .warning-glass.reveal-on-scroll,
+            .footer-contact-block.reveal-on-scroll,
+            .footer-logo-container.reveal-on-scroll {
+                transition-delay: 0s !important;
+            }
+        }
+
         .capa-container {
             width: 100%;
             height: 320px;
@@ -703,9 +766,9 @@
     <footer>
         <div class="container">
             <h2 class="h4 fw-bold mb-4">Dúvidas? Entre em contato</h2>
-            <div class="footer-contact-block glass-panel">
-                <a href="https://wa.me/5508001002345" class="whatsapp-btn reveal-on-scroll"> <i
-                        class="fab fa-whatsapp"></i> 0800 100 2345 </a>
+            <div class="footer-contact-block glass-panel reveal-on-scroll">
+                <a href="https://wa.me/5508001002345" class="whatsapp-btn"> <i class="fab fa-whatsapp"></i> 0800 100
+                    2345 </a>
                 <div class="footer-options mt-4">
                     <div class="footer-option-item"> <i class="fas fa-phone"></i> Opção 1: Aposentados </div>
                     <div class="footer-option-item"> <i class="fas fa-capsules"></i> Opção 3: Medicamentos </div>
@@ -719,11 +782,29 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Force show all on mobile immediately
+            // Mobile: Show immediately (No animations)
             if (window.innerWidth <= 768) {
-                document.querySelectorAll('.reveal-on-scroll').forEach(el => el.classList.add('reveal-active'));
+                document.querySelectorAll('.reveal-on-scroll').forEach(el => {
+                    el.classList.add('reveal-active');
+                });
             } else {
-                document.querySelectorAll('.reveal-on-scroll').forEach(el => el.classList.add('reveal-active'));
+                // Desktop: Intersection Observer for High Fidelity Reveals
+                const observerOptions = {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('reveal-active');
+                        }
+                    });
+                }, observerOptions);
+
+                document.querySelectorAll('.reveal-on-scroll').forEach(el => {
+                    observer.observe(el);
+                });
             }
 
             function randomizeMed(el) {
