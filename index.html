@@ -372,9 +372,13 @@
             p,
             li,
             .intro-text,
-            .step-txt {
+            .step-txt,
+            .footer-option-item,
+            small,
+            .small {
                 font-weight: 500;
-                font-size: 1.15rem;
+                font-size: 1.2rem !important;
+                /* Standardized large font for mobile */
                 color: #222;
             }
 
@@ -595,8 +599,12 @@
     </div>
 
     <div class="main-container">
-        <div class="capa-container reveal-on-scroll"> <img src="banner.jpg" alt="Comunicado Biometria e Token"
-                class="capa-img"> </div>
+        <div class="capa-container reveal-on-scroll">
+            <picture>
+                <source srcset="banner-whatsapp.jpg" media="(max-width: 768px)">
+                <img src="banner.jpg" alt="Comunicado Biometria e Token" class="capa-img">
+            </picture>
+        </div>
 
         <div class="glass-panel intro-section reveal-on-scroll">
             <p class="intro-text">
