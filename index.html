@@ -41,7 +41,7 @@
             position: relative;
         }
 
-        /* --- Gaussian Bubbles Background --- */
+        /* --- Gaussian Bubbles Background (Desktop Only) --- */
         .blobs-container {
             position: fixed;
             top: 0;
@@ -49,7 +49,6 @@
             width: 100%;
             height: 100%;
             z-index: -2;
-            /* Behind icons */
             overflow: hidden;
             pointer-events: none;
         }
@@ -89,7 +88,6 @@
             animation: move-3 22s ease-in-out infinite alternate;
         }
 
-        /* --- Tech Beams for Distortion Testing --- */
         .tech-beams {
             position: fixed;
             top: 0;
@@ -97,7 +95,6 @@
             width: 100%;
             height: 100%;
             z-index: -3;
-            /* Furthest back */
             pointer-events: none;
         }
 
@@ -143,7 +140,6 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            /* Moved closer to the glass panels */
             pointer-events: none;
             overflow: hidden;
         }
@@ -176,7 +172,6 @@
 
             50% {
                 opacity: 0.45;
-                /* Boosted for glass interaction */
                 filter: blur(0px);
                 transform: translate3d(var(--mid-x, 50vw), var(--mid-y, 50vh), 0);
             }
@@ -229,17 +224,13 @@
             backdrop-filter: blur(50px) saturate(210%) contrast(110%) brightness(1.05);
             -webkit-backdrop-filter: blur(50px) saturate(210%) contrast(110%) brightness(1.05);
             border: 1.5px solid rgba(255, 255, 255, 0.7);
-            box-shadow:
-                0 4px 15px rgba(0, 0, 0, 0.05),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.4),
-                0 30px 60px -12px rgba(0, 70, 150, 0.18);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.4), 0 30px 60px -12px rgba(0, 70, 150, 0.18);
             border-radius: 20px;
             position: relative;
             overflow: hidden;
             transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Moving Internal Shine (The 'Liquid' light) */
         .glass-panel::after {
             content: '';
             position: absolute;
@@ -267,7 +258,6 @@
             }
         }
 
-        /* Noise Texture for diffusion */
         .glass-panel::before {
             content: '';
             position: absolute;
@@ -291,7 +281,6 @@
             width: 100%;
             max-width: 900px;
             margin: 2rem auto 0;
-            /* Distance from top in all formats */
             padding: 0 15px;
             position: relative;
             z-index: 1;
@@ -301,17 +290,11 @@
         .capa-container {
             width: 100%;
             height: 320px;
-            /* Slightly taller to fit the heads better */
             overflow: hidden;
             border-radius: 20px;
-            /* Floating look with rounded corners everywhere */
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             margin-bottom: 2.5rem;
             position: relative;
-        }
-
-        .capa-container:hover .capa-img {
-            transform: scale(1.03);
         }
 
         .capa-img {
@@ -319,12 +302,14 @@
             height: 100%;
             object-fit: cover;
             object-position: center 15%;
-            /* Shifted slightly up for better framing */
             display: block;
             transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
-        /* Redesigning the intro to be a clean glass card */
+        .capa-container:hover .capa-img {
+            transform: scale(1.03);
+        }
+
         .intro-section {
             padding: 2.5rem;
             text-align: center;
@@ -339,7 +324,6 @@
             margin: 0;
         }
 
-        /* Grid for main sections */
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -348,70 +332,39 @@
             width: 100%;
         }
 
+        /* --- MOBILE OPTIMIZATIONS --- */
         @media (max-width: 768px) {
+
+            /* Zero animations globally for mobile performance */
+            * {
+                transition: none !important;
+                animation: none !important;
+                scroll-behavior: auto !important;
+            }
+
+            .tech-beams,
+            .floating-meds,
+            .blob-1,
+            .blob-2,
+            .blob-3 {
+                display: none !important;
+            }
+
             .features-grid {
                 grid-template-columns: 1fr;
             }
 
-            .intro-section,
-            .section-card,
-            .warning-glass {
-                margin-left: 0;
-                margin-right: 0;
-            }
-
             .capa-container {
                 height: 220px;
-                /* Taller on Mobile as requested */
             }
 
-            /* --- Mobile Scroll Reveal ONLY (Smoother, no Pop-up) --- */
             .reveal-on-scroll {
-                opacity: 0;
-                transform: translateY(10px);
-                /* Subtle slide instead of deep jump */
-                transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-                will-change: opacity, transform;
+                opacity: 1 !important;
+                transform: none !important;
+                visibility: visible !important;
             }
 
-            .reveal-on-scroll.reveal-active {
-                opacity: 1;
-                transform: translateY(0);
-            }
-
-            /* --- Simplified Entrance for Internal Items (No scale) --- */
-            .reveal-active .icon-circle {
-                color: var(--primary-blue) !important;
-                /* Scale removed for mobile simplicity */
-            }
-
-            .reveal-active.capa-container .capa-img {
-                /* Scale removed */
-            }
-
-            .reveal-active .step-row {
-                border-color: var(--primary-blue);
-                /* Scale removed */
-            }
-
-            /* Clean Staggered Delays for Mobile */
-            .intro-section.reveal-on-scroll {
-                transition-delay: 0.1s;
-            }
-
-            .section-card:nth-child(1).reveal-on-scroll {
-                transition-delay: 0.1s;
-            }
-
-            .section-card:nth-child(2).reveal-on-scroll {
-                transition-delay: 0.2s;
-            }
-
-            .warning-glass.reveal-on-scroll {
-                transition-delay: 0.1s;
-            }
-
-            /* Improve readability on mobile - Increased Body Font */
+            /* Readability Boost */
             body {
                 font-weight: 500;
             }
@@ -421,36 +374,23 @@
             .intro-text,
             .step-txt {
                 font-weight: 500;
-                font-size: 1.1rem;
-                /* Standardized larger font for mobile */
+                font-size: 1.15rem;
                 color: #222;
-                /* Slightly darker for contrast */
             }
 
-            .section-card h3 {
-                font-size: 1.4rem;
-            }
-
-            /* --- Performance Optimizations for Mobile --- */
             .glass-panel {
-                backdrop-filter: blur(20px) saturate(160%);
-                /* Lighter blur for GPU efficiency */
-                -webkit-backdrop-filter: blur(20px) saturate(160%);
-                background: rgba(255, 255, 255, 0.65);
-                /* More solid background to compensate lower blur */
+                backdrop-filter: blur(15px) saturate(140%);
+                -webkit-backdrop-filter: blur(15px) saturate(140%);
+                background: rgba(255, 255, 255, 0.7);
+                transform: none !important;
+                /* No hover lift on mobile */
             }
 
-            .tech-beams,
-            .blob-3 {
-                display: none !important;
-                /* Remove invisible heavy layers */
-            }
-
-            .med-icon {
-                font-size: 1.8rem;
-                /* Slightly smaller to save pixel fill rate */
-                filter: blur(8px);
-                /* Lighter filter */
+            .icon-circle,
+            .step-row {
+                color: var(--primary-blue) !important;
+                border-color: var(--primary-blue) !important;
+                transform: none !important;
             }
         }
 
@@ -473,31 +413,8 @@
             color: var(--primary-blue);
             font-size: 1.5rem;
             margin-bottom: 1.5rem;
-            box-shadow:
-                0 10px 25px rgba(0, 112, 224, 0.1),
-                inset 0 0 8px rgba(255, 255, 255, 0.4);
+            box-shadow: 0 10px 25px rgba(0, 112, 224, 0.1), inset 0 0 8px rgba(255, 255, 255, 0.4);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .icon-circle::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 60%);
-            pointer-events: none;
-        }
-
-        .section-card:hover .icon-circle {
-            transform: scale(1.15) rotate(8deg);
-            background: rgba(255, 255, 255, 0.5);
-            color: var(--dark-blue);
-            box-shadow: 0 12px 25px rgba(0, 112, 224, 0.2);
         }
 
         h3 {
@@ -519,12 +436,6 @@
             margin-bottom: 1rem;
             font-weight: 600;
             font-size: 0.95rem;
-            transition: transform 0.2s ease;
-        }
-
-        .check-list li:hover {
-            transform: translateX(5px);
-            color: var(--primary-blue);
         }
 
         .check-list li::before {
@@ -537,7 +448,6 @@
             font-size: 1.2rem;
         }
 
-        /* Steps list */
         .step-list {
             display: flex;
             flex-direction: column;
@@ -553,12 +463,6 @@
             border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.6);
             transition: all 0.3s ease;
-        }
-
-        .step-row:hover {
-            background: rgba(255, 255, 255, 0.7);
-            border-color: var(--primary-blue);
-            transform: scale(1.02);
         }
 
         .step-num {
@@ -580,7 +484,6 @@
             margin: 0;
         }
 
-        /* Warning box */
         .warning-glass {
             background: rgba(255, 243, 205, 0.7);
             border-left: 6px solid #ffc107;
@@ -595,17 +498,6 @@
             margin-bottom: 1rem;
         }
 
-        .warning-glass ul {
-            margin-bottom: 0;
-            padding-left: 1.5rem;
-        }
-
-        .warning-glass li {
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        /* Footer Redesign */
         footer {
             width: 100%;
             background: rgba(255, 255, 255, 0.8);
@@ -620,7 +512,6 @@
             max-width: 600px;
             margin: 0 auto 3rem;
             padding: 2.5rem 1.5rem;
-            /* Using the glass panel effect for the footer block as well */
         }
 
         .footer-options {
@@ -639,41 +530,6 @@
             gap: 0.5rem;
         }
 
-        .footer-logo-container {
-            margin-top: 2rem;
-            opacity: 0.9;
-            transition: opacity 0.3s ease;
-        }
-
-        .footer-logo-container:hover {
-            opacity: 1;
-        }
-
-        .footer-logo-img {
-            max-width: 280px;
-            height: auto;
-            filter: grayscale(0.2);
-            /* Subtle integration */
-        }
-
-        @media (max-width: 576px) {
-            .footer-options {
-                flex-direction: column;
-                gap: 1.2rem;
-                align-items: flex-start;
-                /* Left oriented */
-                width: fit-content;
-                /* Center the group */
-                margin: 1.5rem auto 0;
-                text-align: left;
-            }
-
-            .footer-contact-block {
-                padding: 2.5rem 1.5rem;
-            }
-        }
-
-        /* --- Animations --- */
         .whatsapp-btn {
             background: #25d366;
             color: white;
@@ -692,44 +548,45 @@
         .whatsapp-btn:hover {
             transform: scale(1.1) translateY(-3px);
             background: #20bd5a;
-            color: white;
             box-shadow: 0 15px 30px rgba(37, 211, 102, 0.4);
         }
 
-        .footer-logo {
-            margin-top: 3rem;
-            opacity: 0.5;
-            font-weight: 700;
-            font-size: 0.85rem;
+        .footer-logo-img {
+            max-width: 280px;
+            height: auto;
+            margin-top: 2rem;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 576px) {
+            .footer-options {
+                flex-direction: column;
+                gap: 1.2rem;
+                align-items: flex-start;
+                width: fit-content;
+                margin: 1.5rem auto 0;
+                text-align: left;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <!-- Tech Beams, Floating Meds and Gaussian Bubbles Background -->
     <div class="tech-beams">
         <div class="beam"></div>
         <div class="beam"></div>
         <div class="beam"></div>
     </div>
     <div class="floating-meds">
-        <i class="fas fa-capsules med-icon"></i>
-        <i class="fas fa-pills med-icon"></i>
-        <i class="fas fa-prescription-bottle-medical med-icon"></i>
-        <i class="fas fa-tablets med-icon"></i>
-        <i class="fas fa-kit-medical med-icon"></i>
-        <i class="fas fa-syringe med-icon"></i>
-        <i class="fas fa-flask med-icon"></i>
-        <i class="fas fa-stethoscope med-icon"></i>
-        <i class="fas fa-mortar-pestle med-icon"></i>
-        <i class="fas fa-hand-holding-medical med-icon"></i>
-        <i class="fas fa-pills med-icon"></i>
-        <i class="fas fa-capsules med-icon"></i>
-        <i class="fas fa-vial med-icon"></i>
-        <i class="fas fa-heart-pulse med-icon"></i>
-        <i class="fas fa-thermometer med-icon"></i>
-        <i class="fas fa-bandage med-icon"></i>
+        <i class="fas fa-capsules med-icon"></i> <i class="fas fa-pills med-icon"></i> <i
+            class="fas fa-prescription-bottle-medical med-icon"></i>
+        <i class="fas fa-tablets med-icon"></i> <i class="fas fa-kit-medical med-icon"></i> <i
+            class="fas fa-syringe med-icon"></i>
+        <i class="fas fa-flask med-icon"></i> <i class="fas fa-stethoscope med-icon"></i> <i
+            class="fas fa-mortar-pestle med-icon"></i>
+        <i class="fas fa-hand-holding-medical med-icon"></i> <i class="fas fa-heart-pulse med-icon"></i> <i
+            class="fas fa-bandage med-icon"></i>
     </div>
     <div class="blobs-container">
         <div class="blob blob-1"></div>
@@ -738,13 +595,9 @@
     </div>
 
     <div class="main-container">
+        <div class="capa-container reveal-on-scroll"> <img src="banner.jpg" alt="Comunicado Biometria e Token"
+                class="capa-img"> </div>
 
-        <!-- Capa / Banner -->
-        <div class="capa-container reveal-on-scroll">
-            <img src="banner.jpg" alt="Comunicado Biometria e Token" class="capa-img">
-        </div>
-
-        <!-- Intro -->
         <div class="glass-panel intro-section reveal-on-scroll">
             <p class="intro-text">
                 Para fortalecer a segurança nas compras realizadas com o <strong>auxílio medicamentos</strong>,
@@ -752,22 +605,15 @@
             </p>
         </div>
 
-        <!-- Features Grid -->
         <div class="features-grid">
-
-            <!-- Biometria -->
             <div class="glass-panel section-card reveal-on-scroll">
-                <div class="icon-circle">
-                    <i class="fas fa-fingerprint"></i>
-                </div>
+                <div class="icon-circle"> <i class="fas fa-fingerprint"></i> </div>
                 <h3>1. Identificação Biométrica</h3>
                 <p class="mb-4">A partir de agora, todas as compras com subsídio deverão ser validadas por digital no
                     caixa.</p>
-
                 <h4 class="h6 fw-bold text-primary text-uppercase mb-3">Como Cadastrar:</h4>
                 <p class="small mb-4">Dirija-se a uma farmácia <strong>Raia ou Drogasil</strong> com seu documento
                     oficial com foto.</p>
-
                 <h4 class="h6 fw-bold text-primary text-uppercase mb-3">Quem pode cadastrar:</h4>
                 <ul class="check-list">
                     <li>Titular</li>
@@ -776,15 +622,11 @@
                 </ul>
             </div>
 
-            <!-- Token -->
             <div class="glass-panel section-card reveal-on-scroll">
-                <div class="icon-circle">
-                    <i class="fas fa-mobile-screen-button"></i>
-                </div>
+                <div class="icon-circle"> <i class="fas fa-mobile-screen-button"></i> </div>
                 <h3>2. Uso do Token</h3>
                 <p class="mb-4">Caso haja problemas com a leitura da biometria, utilize o Token gerado no aplicativo.
                 </p>
-
                 <div class="step-list">
                     <div class="step-row">
                         <div class="step-num">1</div>
@@ -805,10 +647,8 @@
                     </div>
                 </div>
             </div>
-
         </div>
 
-        <!-- Warning Section -->
         <div class="glass-panel warning-glass reveal-on-scroll">
             <h4><i class="fas fa-circle-exclamation me-2"></i>Importante</h4>
             <ul>
@@ -817,81 +657,39 @@
                 <li>Não será mais solicitado assinatura/contra-cupom.</li>
             </ul>
         </div>
-
     </div>
 
-    <!-- Footer -->
     <footer>
         <div class="container">
             <h2 class="h4 fw-bold mb-4">Dúvidas? Entre em contato</h2>
-
             <div class="footer-contact-block glass-panel">
-                <a href="https://wa.me/5508001002345" class="whatsapp-btn reveal-on-scroll">
-                    <i class="fab fa-whatsapp"></i>
-                    0800 100 2345
-                </a>
-
+                <a href="https://wa.me/5508001002345" class="whatsapp-btn reveal-on-scroll"> <i
+                        class="fab fa-whatsapp"></i> 0800 100 2345 </a>
                 <div class="footer-options mt-4">
-                    <div class="footer-option-item">
-                        <i class="fas fa-phone"></i> Opção 1: Aposentados
-                    </div>
-                    <div class="footer-option-item">
-                        <i class="fas fa-capsules"></i> Opção 3: Medicamentos
-                    </div>
+                    <div class="footer-option-item"> <i class="fas fa-phone"></i> Opção 1: Aposentados </div>
+                    <div class="footer-option-item"> <i class="fas fa-capsules"></i> Opção 3: Medicamentos </div>
                 </div>
             </div>
-
-            <div class="footer-logo-container reveal-on-scroll">
-                <img src="logo.svg" alt="Fundação Zerrenner | RD Saúde" class="footer-logo-img">
-            </div>
+            <div class="footer-logo-container reveal-on-scroll"> <img src="logo.svg" alt="RD Saúde"
+                    class="footer-logo-img"> </div>
         </div>
     </footer>
 
-    <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Scroll Reveal Activation Script - MOBILE ONLY -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Only run if the screen width is mobile (match CSS media query)
+            // Force show all on mobile immediately
             if (window.innerWidth <= 768) {
-                const observerOptions = {
-                    threshold: 0.05, // Trigger earlier for a smoother feel
-                    rootMargin: '0px 0px -80px 0px' // Offset to ensure user is scrolling into it
-                };
-
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('reveal-active');
-                        }
-                    });
-                }, observerOptions);
-
-                document.querySelectorAll('.reveal-on-scroll').forEach(el => {
-                    observer.observe(el);
-                });
+                document.querySelectorAll('.reveal-on-scroll').forEach(el => el.classList.add('reveal-active'));
             } else {
-                // On desktop, immediately show all to avoid any issues
-                document.querySelectorAll('.reveal-on-scroll').forEach(el => {
-                    el.classList.add('reveal-active');
-                });
+                document.querySelectorAll('.reveal-on-scroll').forEach(el => el.classList.add('reveal-active'));
             }
 
-            // --- Floating Meds Randomization (Glacial Drift) ---
             function randomizeMed(el) {
-                // Radically slow: 150 to 300 seconds (2.5 to 5 minutes per cycle)
                 const duration = 150 + Math.random() * 150;
                 el.style.animationDuration = duration + 's';
+                el.style.animationDelay = (Math.random() * -duration) + 's';
 
-                if (!el.dataset.initialized) {
-                    el.style.animationDelay = (Math.random() * -duration) + 's';
-                    el.dataset.initialized = "true";
-                } else {
-                    el.style.animationDelay = '0s';
-                }
-
-                // Random edges
                 const startSide = Math.floor(Math.random() * 4);
                 let startX, startY;
                 if (startSide === 0) { startX = Math.random() * 100; startY = -25; }
@@ -906,33 +704,25 @@
                 else if (endSide === 2) { endX = Math.random() * 100; endY = 125; }
                 else { endX = -25; endY = Math.random() * 100; }
 
-                // Linear mid-point to avoid "bouncing" or "stretching" jumps
-                const midX = (startX + endX) / 2;
-                const midY = (startY + endY) / 2;
-
                 el.style.setProperty('--start-x', startX + 'vw');
                 el.style.setProperty('--start-y', startY + 'vh');
-                el.style.setProperty('--mid-x', midX + 'vw');
-                el.style.setProperty('--mid-y', midY + 'vh');
+                el.style.setProperty('--mid-x', (startX + endX) / 2 + 'vw');
+                el.style.setProperty('--mid-y', (startY + endY) / 2 + 'vh');
                 el.style.setProperty('--end-x', endX + 'vw');
                 el.style.setProperty('--end-y', endY + 'vh');
-
                 el.style.fontSize = (1.2 + Math.random() * 1.8) + 'rem';
             }
 
             const meds = document.querySelectorAll('.med-icon');
-            const isMobile = window.innerWidth <= 768;
-
-            meds.forEach((el, index) => {
-                // Optimize Mobile: Only show first 6 icons to reduce CPU/GPU load
-                if (isMobile && index >= 6) {
-                    el.style.display = 'none';
-                    return;
-                }
-
-                randomizeMed(el);
-                el.addEventListener('animationiteration', () => randomizeMed(el));
-            });
+            if (window.innerWidth > 768) {
+                meds.forEach(el => {
+                    randomizeMed(el);
+                    el.addEventListener('animationiteration', () => randomizeMed(el));
+                });
+            } else {
+                // Disable floating meds on mobile for 100% performance
+                document.querySelector('.floating-meds').style.display = 'none';
+            }
         });
     </script>
 </body>
