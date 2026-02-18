@@ -280,10 +280,38 @@
         .main-container {
             width: 100%;
             max-width: 900px;
-            margin: 2rem auto 0;
+            margin: 0 auto;
+            /* Removed margin-top to accommodate header logo */
             padding: 0 15px;
             position: relative;
             z-index: 1;
+        }
+
+        /* Top Logo Styling */
+        .header-logo-top {
+            width: 100%;
+            max-width: 900px;
+            margin: 2rem auto 1.5rem;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .top-logo-img {
+            height: 38px;
+            width: auto;
+            opacity: 0.85;
+        }
+
+        @media (max-width: 768px) {
+            .header-logo-top {
+                justify-content: center;
+                margin-top: 1.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .top-logo-img {
+                height: 32px;
+            }
         }
 
         /* Capa / Banner Styling */
@@ -599,11 +627,14 @@
     </div>
 
     <div class="main-container">
+        <!-- Top Logo -->
+        <div class="header-logo-top">
+            <img src="logo.svg" alt="RD Saúde" class="top-logo-img">
+        </div>
+
+        <!-- Capa / Banner -->
         <div class="capa-container reveal-on-scroll">
-            <picture>
-                <source srcset="banner-whatsapp.jpg" media="(max-width: 768px)">
-                <img src="banner.jpg" alt="Comunicado Biometria e Token" class="capa-img">
-            </picture>
+            <img src="banner-whatsapp.jpg" alt="Comunicado Biometria e Token" class="capa-img">
         </div>
 
         <div class="glass-panel intro-section reveal-on-scroll">
