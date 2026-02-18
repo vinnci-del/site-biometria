@@ -429,6 +429,28 @@
             .section-card h3 {
                 font-size: 1.4rem;
             }
+
+            /* --- Performance Optimizations for Mobile --- */
+            .glass-panel {
+                backdrop-filter: blur(20px) saturate(160%);
+                /* Lighter blur for GPU efficiency */
+                -webkit-backdrop-filter: blur(20px) saturate(160%);
+                background: rgba(255, 255, 255, 0.65);
+                /* More solid background to compensate lower blur */
+            }
+
+            .tech-beams,
+            .blob-3 {
+                display: none !important;
+                /* Remove invisible heavy layers */
+            }
+
+            .med-icon {
+                font-size: 1.8rem;
+                /* Slightly smaller to save pixel fill rate */
+                filter: blur(8px);
+                /* Lighter filter */
+            }
         }
 
         .section-card {
@@ -898,7 +920,15 @@
             }
 
             const meds = document.querySelectorAll('.med-icon');
-            meds.forEach(el => {
+            const isMobile = window.innerWidth <= 768;
+
+            meds.forEach((el, index) => {
+                // Optimize Mobile: Only show first 6 icons to reduce CPU/GPU load
+                if (isMobile && index >= 6) {
+                    el.style.display = 'none';
+                    return;
+                }
+
                 randomizeMed(el);
                 el.addEventListener('animationiteration', () => randomizeMed(el));
             });
