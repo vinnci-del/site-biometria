@@ -280,89 +280,13 @@
         .main-container {
             width: 100%;
             max-width: 900px;
-            margin: 0 auto;
-            /* Removed margin-top to accommodate header logo */
+            margin: 2rem auto 0;
             padding: 0 15px;
             position: relative;
             z-index: 1;
         }
 
-        /* Top Logo Styling */
-        .header-logo-top {
-            width: 100%;
-            max-width: 900px;
-            margin: 2rem auto 1.5rem;
-            display: flex;
-            justify-content: center;
-            /* Always centered */
-        }
-
-        .top-logo-img {
-            height: 38px;
-            width: auto;
-            opacity: 0.85;
-        }
-
-        @media (max-width: 768px) {
-            .header-logo-top {
-                margin-top: 1.5rem;
-                margin-bottom: 1rem;
-            }
-
-            .top-logo-img {
-                height: 32px;
-            }
-        }
-
-        /* --- Desktop Scroll Reveal (Refined & Fluid) --- */
-        .reveal-on-scroll {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: transform, opacity;
-        }
-
-        .reveal-on-scroll.reveal-active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Staggered Entrance Delays (Desktop Only) */
-        .intro-section.reveal-on-scroll {
-            transition-delay: 0.1s;
-        }
-
-        .section-card:nth-child(1).reveal-on-scroll {
-            transition-delay: 0.2s;
-        }
-
-        .section-card:nth-child(2).reveal-on-scroll {
-            transition-delay: 0.4s;
-        }
-
-        .warning-glass.reveal-on-scroll {
-            transition-delay: 0.2s;
-        }
-
-        .footer-contact-block.reveal-on-scroll {
-            transition-delay: 0.1s;
-        }
-
-        .footer-logo-container.reveal-on-scroll {
-            transition-delay: 0.3s;
-        }
-
-        @media (max-width: 768px) {
-
-            .intro-section.reveal-on-scroll,
-            .section-card:nth-child(n).reveal-on-scroll,
-            .warning-glass.reveal-on-scroll,
-            .footer-contact-block.reveal-on-scroll,
-            .footer-logo-container.reveal-on-scroll {
-                transition-delay: 0s !important;
-            }
-        }
-
+        /* Capa / Banner Styling */
         .capa-container {
             width: 100%;
             height: 320px;
@@ -497,13 +421,6 @@
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .section-card:hover .icon-circle {
-            transform: scale(1.15) rotate(8deg);
-            background: rgba(255, 255, 255, 0.5);
-            color: var(--dark-blue);
-            box-shadow: 0 12px 25px rgba(0, 112, 224, 0.2);
-        }
-
         h3 {
             font-weight: 800;
             color: var(--dark-blue);
@@ -523,12 +440,6 @@
             margin-bottom: 1rem;
             font-weight: 600;
             font-size: 0.95rem;
-            transition: transform 0.2s ease, color 0.2s ease;
-        }
-
-        .check-list li:hover {
-            transform: translateX(5px);
-            color: var(--primary-blue);
         }
 
         .check-list li::before {
@@ -556,12 +467,6 @@
             border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.6);
             transition: all 0.3s ease;
-        }
-
-        .step-row:hover {
-            background: rgba(255, 255, 255, 0.7);
-            border-color: var(--primary-blue);
-            transform: scale(1.02);
         }
 
         .step-num {
@@ -694,11 +599,6 @@
     </div>
 
     <div class="main-container">
-        <!-- Top Logo -->
-        <div class="header-logo-top">
-            <img src="logo.svg" alt="RD Saúde" class="top-logo-img">
-        </div>
-
         <div class="capa-container reveal-on-scroll">
             <picture>
                 <source srcset="banner-whatsapp.jpg" media="(max-width: 768px)">
@@ -770,9 +670,9 @@
     <footer>
         <div class="container">
             <h2 class="h4 fw-bold mb-4">Dúvidas? Entre em contato</h2>
-            <div class="footer-contact-block glass-panel reveal-on-scroll">
-                <a href="https://wa.me/5508001002345" class="whatsapp-btn"> <i class="fab fa-whatsapp"></i> 0800 100
-                    2345 </a>
+            <div class="footer-contact-block glass-panel">
+                <a href="https://wa.me/5508001002345" class="whatsapp-btn reveal-on-scroll"> <i
+                        class="fab fa-whatsapp"></i> 0800 100 2345 </a>
                 <div class="footer-options mt-4">
                     <div class="footer-option-item"> <i class="fas fa-phone"></i> Opção 1: Aposentados </div>
                     <div class="footer-option-item"> <i class="fas fa-capsules"></i> Opção 3: Medicamentos </div>
@@ -786,29 +686,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Mobile: Show immediately (No animations)
+            // Force show all on mobile immediately
             if (window.innerWidth <= 768) {
-                document.querySelectorAll('.reveal-on-scroll').forEach(el => {
-                    el.classList.add('reveal-active');
-                });
+                document.querySelectorAll('.reveal-on-scroll').forEach(el => el.classList.add('reveal-active'));
             } else {
-                // Desktop: Intersection Observer for High Fidelity Reveals
-                const observerOptions = {
-                    threshold: 0.1,
-                    rootMargin: '0px 0px -50px 0px'
-                };
-
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('reveal-active');
-                        }
-                    });
-                }, observerOptions);
-
-                document.querySelectorAll('.reveal-on-scroll').forEach(el => {
-                    observer.observe(el);
-                });
+                document.querySelectorAll('.reveal-on-scroll').forEach(el => el.classList.add('reveal-active'));
             }
 
             function randomizeMed(el) {
