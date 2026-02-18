@@ -365,32 +365,33 @@
                 /* Taller on Mobile as requested */
             }
 
-            /* --- Mobile Scroll Reveal ONLY (Optimized for Fluidity) --- */
+            /* --- Mobile Scroll Reveal ONLY (Smoother, no Pop-up) --- */
             .reveal-on-scroll {
                 opacity: 0;
-                transform: translateY(30px) scale(0.98);
-                transition: opacity 0.8s ease-out,
-                    transform 0.8s cubic-bezier(0.2, 1, 0.3, 1);
+                transform: translateY(10px);
+                /* Subtle slide instead of deep jump */
+                transition: opacity 0.8s ease-out, transform 0.8s ease-out;
                 will-change: opacity, transform;
             }
 
             .reveal-on-scroll.reveal-active {
                 opacity: 1;
-                transform: translateY(0) scale(1);
+                transform: translateY(0);
             }
 
-            /* --- Auto-Animate Items on Mobile (Simple & Fast) --- */
+            /* --- Simplified Entrance for Internal Items (No scale) --- */
             .reveal-active .icon-circle {
-                transform: scale(1.1) rotate(5deg);
                 color: var(--primary-blue) !important;
+                /* Scale removed for mobile simplicity */
             }
 
             .reveal-active.capa-container .capa-img {
-                transform: scale(1.03);
+                /* Scale removed */
             }
 
             .reveal-active .step-row {
-                transform: scale(1.02);
+                border-color: var(--primary-blue);
+                /* Scale removed */
             }
 
             /* Clean Staggered Delays for Mobile */
